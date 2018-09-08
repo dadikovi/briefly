@@ -1,0 +1,3 @@
+build/*
+dist/*
+briefly.egg-info/*

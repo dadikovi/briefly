@@ -16,8 +16,8 @@
 
 import random
 
-from wrappers import *
-import process
+from .wrappers import *
+from . import process
 
 @simple_process
 def cat(self, *sources):

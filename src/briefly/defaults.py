@@ -16,7 +16,7 @@
 
 import getpass
 
-from properties import *
+from .properties import *
 
 # Bare minimum system settings for any pipeline
 PIPELINE_DEFAULT_PROPERTIES = Properties(

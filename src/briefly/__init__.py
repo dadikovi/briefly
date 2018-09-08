@@ -17,6 +17,6 @@
 # briefly job flow script package.
 # Be careful about which modules to import here to avoid naming collisions
 
-from properties import *
-from wrappers import *
-from core import *
+#from .properties import *
+#from .wrappers import *
+#from .core import *

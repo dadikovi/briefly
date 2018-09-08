@@ -17,9 +17,9 @@
 import os
 import sys
 import hashlib
-import fs
+from . import fs
 
-from node import *
+from .node import *
 
 PROCESS_DEFS = []
 

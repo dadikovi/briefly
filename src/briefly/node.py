@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 
-import fs
+from . import fs
 import datetime
 import threading
 import traceback
 
-from coreutils import *
+from .coreutils import *
 
 Events = enum(
   RuntimeNotification='1'
@@ -116,7 +116,7 @@ class Node(object):
         self.execute()
         self.log('Execution completed: %s', type(self).__name__)
         self.exe_error = None
-      except Exception, e:
+      except Exception as e:
         self.exe_error = e
         self.execute_error(e)
         self.log('Exception: %s', e)

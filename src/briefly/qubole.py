@@ -14,11 +14,11 @@
 # limitations under the License.
 #
 
-import Queue
+import queue
 import uuid
 
-from coreutils import *
-from rate_limit_lock import *
+from .coreutils import *
+from .rate_limit_lock import *
 
 import qds_sdk.qubole
 import qds_sdk.commands
@@ -157,7 +157,7 @@ class QuboleCluster(InstanceSynchronizedHelper):
     with QuboleCluster.rate_limit_lock:
       try:
         qds_sdk.cluster.Cluster.terminate(self.id)
-      except Exception, e:
+      except Exception as e:
         message('ERROR: Failed to send termination request to cluster: %s', self.id)
 
   @instance_synchronized
@@ -185,7 +185,7 @@ class QuboleCluster(InstanceSynchronizedHelper):
       try:
         qds_sdk.cluster.Cluster.delete(self.id)
         self.id = None
-      except Exception, e:
+      except Exception as e:
         message('ERROR: Failed to delete cluster: %s', self.id)
 
   def run_steps(self, node, wait=True):
@@ -219,7 +219,7 @@ class QuboleCluster(InstanceSynchronizedHelper):
           step_status = qds_sdk.commands.HadoopCommand.find(self.job_id).status # Could fail and raise exception.
         # Reset counter.
         status_error_counter = 0
-      except Exception, e:
+      except Exception as e:
         # Had issue accessing status. Try a few times until the count reaches max_status_error.
         status_error_counter += 1
         if status_error_counter > self.max_status_error:
@@ -258,7 +258,7 @@ class QuboleManager(InstanceSynchronizedHelper):
     '''Constructor, initialize cluster queue.'''
     super(QuboleManager, self).__init__()
     self.clusters = []
-    self.cluster_queue = Queue.PriorityQueue()
+    self.cluster_queue = queue.PriorityQueue()
     self.prop = None
     self.closed = False
 

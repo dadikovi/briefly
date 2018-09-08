@@ -14,14 +14,14 @@
 # limitations under the License.
 #
 
-import process
-import hadoop
-import java
-import shell
+from . import process
+from . import hadoop
+from . import java
+from . import shell
 import os
 import stat
 
-from core import *
+from .core import *
 
 #
 # Common wrappers to create simple process.

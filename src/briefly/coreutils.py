@@ -17,7 +17,7 @@
 import threading
 import subprocess
 
-from properties import *
+from .properties import *
 
 # Global constants.
 MAIN_LOG_FILE = None
@@ -71,7 +71,7 @@ def message(fmt, *args):
   '''Default output for pipeline execution.'''
   msg = fmt % args
   log(fmt, *args)
-  print msg
+  print(msg)
 
 class HadoopFailure(Exception):
   '''Hadoop execution failure.'''
@@ -86,7 +86,7 @@ def exec_external(cmdlist, config, output):
     else:
       with open(output, 'w') as outf:
         return _exec_external(cmdlist, config, outf)
-  except Exception, e:
+  except Exception as e:
     if not config.ignore_error:
       raise e
 

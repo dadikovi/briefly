@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-from briefly import *
+from briefly.process import *
 from briefly.common import *
 
 objs = Pipeline('Simple shell pipeline')
@@ -33,7 +33,7 @@ def dump(self):
   '''Dump result to standard output.'''
   for line in self.read():
     self.write(line)
-    print line,
+    print (line)
 
 @simple_process
 def split(self):

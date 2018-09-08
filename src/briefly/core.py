@@ -19,13 +19,13 @@ import time
 import traceback
 import threading
 import optparse
-import Queue
+import queue
 
-from properties import *
-from process import *
-from defaults import *
-from coreutils import *
-import dag
+from .properties import *
+from .process import *
+from .defaults import *
+from .coreutils import *
+from . import dag
 
 BRIEFLY_VERSION = '1.0'
 
@@ -81,7 +81,7 @@ class NodeExecutor(threading.Thread):
         node.check_execute()
         log(' - %s : done', node.hash())
         break
-      except Exception, e:
+      except Exception as e:
         log(' - %s : exception: %s', node.hash(), str(e))
         # Last try? Output more detailed trace for debugging.
         if i == node.prop.num_retry - 1:
@@ -105,7 +105,7 @@ class ExecutorService(object):
     self.dag = dag.DependencyGraph()
     self.executor_factory = NodeExecutor
     self.lock = threading.Lock()
-    self.pending = Queue.PriorityQueue()
+    self.pending = queue.PriorityQueue()
     self.task_done_callback = task_done_callback
     self.order = 1
     
@@ -257,7 +257,7 @@ class Pipeline(object):
     if not os.path.exists(self.prop.build_dir):
       try:
         os.makedirs(self.prop.build_dir)
-      except OSError, ose:
+      except OSError as ose:
         if ose.errno != errno.EEXIST:
           raise
 

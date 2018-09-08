@@ -17,7 +17,7 @@
 import os
 import re
 import copy
-import simplejson
+import json
 
 class Properties(object):
   '''A hierachical property collection.
@@ -161,7 +161,7 @@ class Properties(object):
 
   def defaults(self, **kargs):
     '''Update the collection only if given entries are not set.'''
-    for key, value in kargs.iteritems():
+    for key, value in kargs.items():
       if not self.__data__.has_key(key):
         if isinstance(value, Properties):
           self.__setitem__(key, value.get_copy())
@@ -209,8 +209,8 @@ class Properties(object):
     try:
       key = fields[0].strip()
       try:
-        value = simplejson.loads(fields[1].strip())
-      except Exception, e:
+        value = json.loads(fields[1].strip())
+      except Exception as e:
         # This is to load non json format values as a string.
         value = fields[1].strip()
         # Extend json boolean values to be case-insensitive.
@@ -219,8 +219,8 @@ class Properties(object):
       if not key.startswith('@'): # control commands
         self.__setitem__(key, value)
       return (key, value)
-    except Exception, e:
-      print "Unable to parse property: ", line
+    except Exception as e:
+      print ("Unable to parse property: ", line)
       return (None, None)
 
   def load(self, filename):
@@ -250,7 +250,7 @@ class Properties(object):
     '''Dump properties to a file'''
     with open(filename, 'w') as pf:
       for key, value in self:
-        pf.write('%s = %s\n' % (key, simplejson.dumps(value)))
+        pf.write('%s = %s\n' % (key, json.dumps(value)))
     return self
       
   def to_json(self):
@@ -265,7 +265,7 @@ class Properties(object):
         else:
           result[key] = value
       return result
-    return simplejson.dumps(json_dict(self.get_data()))
+    return json.dumps(json_dict(self.get_data()))
 
   def from_json(self, json_str):
     '''Load from a json string.'''
@@ -280,7 +280,7 @@ class Properties(object):
         else:
           prop[key] = value
 
-    d = simplejson.loads(json_str)
+    d = json.loads(json_str)
     set_dict(self, d)
     return self
 

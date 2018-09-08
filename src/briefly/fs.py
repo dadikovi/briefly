@@ -27,7 +27,8 @@ except:
   from s4cmd import *
 
 # Initialize keys first.
-S3Handler.init_s3_keys()
+# Commented out next line because execution crashed because of it.
+# S3Handler.init_s3_keys(None)
 
 # Shared filesystem/s3 utilities.
 def is_s3url(path):

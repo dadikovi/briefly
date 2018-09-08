@@ -46,7 +46,7 @@ class RateLimitLock:
 
     delay = min((2 ** self.err_count) * self.delay, self.MAX_DELAY)
     if self.err_count > 0:
-      print 'delay: %f' % delay
+      print('delay: %f' % delay)
 
     time.sleep(delay)
     self.lock.release()

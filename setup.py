@@ -38,6 +38,6 @@ setup(name='briefly',
       url='https://github.com/bloomreach/briefly',
       packages=['briefly'],
       package_dir={'briefly': 'src/briefly'},
-      install_requires=['boto>=2.3.0', 's4cmd>=1.5.20', 'qds_sdk==1.4.0'],
-      dependency_links=['git+https://github.com/qubole/qds-sdk-py.git@v1.4.0#egg=qds_sdk-1.4.0']
+      install_requires=['boto>=2.3.0', 's4cmd>=1.5.20', 'qds_sdk>=1.4.0'],
+      dependency_links=['git+https://github.com/boto/boto.git@2.3.0#egg=boto-2.3.0','git+https://github.com/bloomreach/s4cmd.git@1.5.20#egg=s4cmd-1.5.20','git+https://github.com/qubole/qds-sdk-py.git@v1.4.0#egg=qds_sdk-1.4.0']
      )

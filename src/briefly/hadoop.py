@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-import Queue
+import queue
 import subprocess
 import threading
 import time
@@ -25,13 +25,13 @@ from boto.emr.step import JarStep
 from boto.emr.instance_group import InstanceGroup
 from boto.emr.bootstrap_action import BootstrapAction
 
-import fs
-import process
-from coreutils import *
-from rate_limit_lock import *
-from node import *
-from properties import *
-from qubole import *
+from . import fs
+from . import process
+from .coreutils import *
+from .rate_limit_lock import *
+from .node import *
+from .properties import *
+from .qubole import *
 
 
 class EMRCluster(object):
@@ -135,7 +135,7 @@ class EMRCluster(object):
         with EMRCluster.rate_limit_lock:
           self.conn.terminate_jobflow(self.jobid)
         break
-      except Exception, e:
+      except Exception as e:
         message('Unable to terminate job flow: %s', self.jobid)
         message(traceback.format_exc())
     # We have to set jobid as None to create new cluster;
@@ -177,7 +177,7 @@ class EMRCluster(object):
         # Here we just add single step. And get the step_id for fallowing checks.
         step_id = self.conn.add_jobflow_steps(self.jobid, self.get_steps(node)).stepids[0].value
         assert step_id is not None
-    except Exception, e:
+    except Exception as e:
       node.log('Unable to add jobflow steps: %s', node.hash())
       node.log('%s', traceback.format_exc())
       raise HadoopFailure()
@@ -223,7 +223,7 @@ class EMRCluster(object):
 
       except KeyboardInterrupt:
         raise
-      except Exception, e:
+      except Exception as e:
         node.log('EMR loop exception: %d error(s)', status_error_counter)
         status_error_counter += 1
         if status_error_counter > self.emr_status_max_error:
@@ -252,7 +252,7 @@ class IdleTimer(threading.Thread):
     while not self.terminated.wait(self.delay):
       try:
         self.check_func()
-      except Exception, e:
+      except Exception as e:
         message('Exception checking idle clusters: %s', str(e))
 
   def terminate(self):
@@ -273,7 +273,7 @@ class EMRManager(object):
   def reset(self):
     '''Cleanup and re-initialize internal states'''
     self.clusters = []
-    self.pool = Queue.PriorityQueue()
+    self.pool = queue.PriorityQueue()
     self.nodes = []
     self.prop = None
 

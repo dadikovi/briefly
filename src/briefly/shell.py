@@ -14,10 +14,10 @@
 # limitations under the License.
 #
 
-import process
+from . import process
 
-from properties import *
-from coreutils import *
+from .properties import *
+from .coreutils import *
 
 class ShellProcess(process.LocalProcess):
   '''A simple process for shell execution.'''
