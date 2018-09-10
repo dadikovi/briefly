@@ -90,11 +90,11 @@ class Properties(object):
     '''
 
     fields = key.split('.')
-    if len(fields) > 1 and self.__data__.has_key(fields[0]):
+    if len(fields) > 1 and fields[0] in self.__data__:
       assert isinstance(self.__data__[fields[0]], Properties)
       return self.__data__[fields[0]].__getitem__('.'.join(fields[1:]))
 
-    if not self.__data__.has_key(key):
+    if not key in self.__data__:
       return None
 
     node = self
@@ -113,10 +113,10 @@ class Properties(object):
 
     fields = key.split('.')
     if len(fields) > 1:
-      assert self.__data__.has_key(fields[0]) and isinstance(self.__data__[fields[0]], Properties)
+      assert fields[0] in self.__data__ and isinstance(self.__data__[fields[0]], Properties)
       return self.__data__[fields[0]].__setitem__('.'.join(fields[1:]), value)
 
-    if self.__data__.has_key(key) and self.__data__[key] == value:
+    if key in self.__data__ and self.__data__[key] == value:
       return
 
     self.__data__[key] = value
@@ -125,7 +125,7 @@ class Properties(object):
 
   def __iter__(self):
     '''Iterator of this collection.'''
-    return self.__data__.iteritems()
+    return iter(self.__data__.items())
 
   def __str__(self):
     '''String represention of this collection.'''
@@ -162,7 +162,7 @@ class Properties(object):
   def defaults(self, **kargs):
     '''Update the collection only if given entries are not set.'''
     for key, value in kargs.items():
-      if not self.__data__.has_key(key):
+      if not key in self.__data__:
         if isinstance(value, Properties):
           self.__setitem__(key, value.get_copy())
         else:
@@ -175,13 +175,13 @@ class Properties(object):
 
   def set(self, **kargs):
     '''Update the collection unconditionally.'''
-    for key, value in kargs.iteritems():
+    for key, value in kargs.items():
       self.__setitem__(key, value)
     return self
 
   def sub(self, s, **kargs):
     '''Utility function to substitute variables with value.'''
-    if not isinstance(s, basestring):
+    if not isinstance(s, str):
       if isinstance(s, list):
         # Recursively substitute variables for each list elements.
         return [self.sub(l, **kargs) for l in s]
@@ -259,7 +259,7 @@ class Properties(object):
     def json_dict(d):
       '''Helper to create json friendly dictionary'''
       result = {}
-      for key, value in d.iteritems():
+      for key, value in d.items():
         if isinstance(value, Properties):
           result[key] = json_dict(value.get_data())
         else:
@@ -272,9 +272,9 @@ class Properties(object):
 
     def set_dict(prop, d):
       '''Helper to set values from json recursively'''
-      for key, value in d.iteritems():
+      for key, value in d.items():
         if isinstance(value, dict):
-          if not prop.__data__.has_key(key) or not isinstance(prop[key], Properties):
+          if not key in prop.__data__ or not isinstance(prop[key], Properties):
             prop[key] = Properties()
           set_dict(prop[key], value)
         else:

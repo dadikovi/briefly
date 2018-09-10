@@ -163,8 +163,8 @@ class ExecutorService(object):
 
   def terminate(self):
     '''Terminate the execution service. Should be called with self.lock being hold.'''
-    for i in xrange(self.number_of_threads):
-      self.pending.put((sys.maxint, None))
+    for i in range(self.number_of_threads):
+      self.pending.put((sys.maxsize, None))
       
   def execute(self, targets):
     '''Start execution of targets. Prepare the dependency map
@@ -184,7 +184,7 @@ class ExecutorService(object):
 
     # Create worker threads.
     running_threads = []
-    for i in xrange(self.number_of_threads):
+    for i in range(self.number_of_threads):
       running_threads.append(self.executor_factory(self, self.task_done_callback))
 
     try:

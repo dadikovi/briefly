@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-from properties import Properties
+from .properties import Properties
 
 class GraphNode(object):
   ''' Internal graph node data strcuture used by this module. '''
@@ -94,7 +94,7 @@ class DependencyGraph(object):
   def nodes(self):
     ''' Return all nodes in the graph.'''
     nodes = []
-    for k, graph_node in self.node_map.iteritems():
+    for k, graph_node in self.node_map.items():
       nodes.append(graph_node.unpack(k))
     return nodes
 
@@ -137,7 +137,7 @@ class DependencyGraph(object):
   def get_start_nodes(self):
     ''' Get start nodes (those nodes do not have incoming edges) from the graph. '''
     nodes = []
-    for node_key, graph_node in self.node_map.iteritems():
+    for node_key, graph_node in self.node_map.items():
       if not self.has_parent(node_key):
         nodes.append(graph_node.unpack(node_key))
     return nodes

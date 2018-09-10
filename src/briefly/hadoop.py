@@ -130,7 +130,7 @@ class EMRCluster(object):
     self.level += level_upgrade # upgrade to another price level
 
     message('Terminate jobflow: %s', self.jobid)
-    for i in xrange(3):
+    for i in range(3):
       try:
         with EMRCluster.rate_limit_lock:
           self.conn.terminate_jobflow(self.jobid)

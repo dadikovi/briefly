@@ -1,3 +1,3 @@
-build/*
 dist/*
 briefly.egg-info/*
+**/build/*

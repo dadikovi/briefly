@@ -46,7 +46,7 @@ class Process(Node):
       if isinstance(arg, Node):
         arg.check_configure()
       args.append(self.add_dep(arg))
-    for k, v in self.kargs.iteritems():
+    for k, v in self.kargs.items():
       if isinstance(v, Node):
         v.check_configure()
       kargs[k] = self.add_dep(v)
@@ -61,14 +61,15 @@ class Process(Node):
 
     op = type(self).__name__
     elems = []
-    for v in self.deps + list(self.args) + self.kargs.values():
+    for v in self.deps + list(self.args) + list(self.kargs.values()):
       if isinstance(v, Process):
         elems.append(v.hash())
       else:
         elems.append(str(v))
 
     m = hashlib.md5()
-    m.update('%s(%s)' % (op, ','.join(elems)))
+    s = "%s(%s)" % (op, ",".join(elems))
+    m.update(bytearray(s, 'utf-8'))
     self.hashcode = '%s-%s' % (op, m.hexdigest()[:16])
 
     return self.hashcode
