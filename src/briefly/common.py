@@ -157,7 +157,7 @@ def filter(self, predicate, inverse=False):
     str: str_gen
   }
 
-  if pfunc.has_key(ptype):
+  if ptype in pfunc:
     predicate = pfunc[ptype](predicate)
 
   for line in self.read():
